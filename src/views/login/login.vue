@@ -13,6 +13,7 @@
     import console from 'console'
     import user from '@/store/user'
     import router from '@/router'
+    import { Message } from 'element-ui'
     export default{
         data() {
             return {
@@ -26,14 +27,23 @@
             login() {
                 console.log(this.reqData)
                 login.login(this.reqData).then(response =>{
-                    console.log("登录返回")
-                    console.log(response)
+                    console.debug("登录返回")
+                    console.debug(response)
                     if(response.code === 10000){
-                        var data = response.data
+                        Message({
+                            showClose: true,
+                            message: '登录成功',
+                            type: 'success'
+                        })
+                        let data = response.data
                         user.setToken(data.token)
                         router.push('/')
                     }else {
-                        alert(response.message)
+                        Message({
+                            showClose: true,
+                            message: response.message,
+                            type: 'error'
+                        })
                     }
                 })
             }

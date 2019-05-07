@@ -3,23 +3,26 @@
  * 路由跳转前判断是否登录
  */
 import router from '../router'
-// import user from '../store/user'
+import user from '../store/user'
 import console from 'console'
+import { Message } from 'element-ui'
 
 router.beforeEach(function (to, from ,next ) {
     console.log("路由路由before")
-    alert("路由")
-    // if(!user.getToken()){
-    //     return next({path: '/login'})
-    // }
+    if(to.path !== '/login'){
+        if(!user.getToken()){
+            console.log(Message)
+            Message({
+                showClose: true,
+                message: '未登录',
+                type: 'error'
+            })
+            return next({path: '/login'})
+        }
+    }
     next();
 })
-//
-// router.beforeEach((to, from ,next ) =>{
-//     console.log("路由路由before")
-//     alert("路由")
-//     next();
-// })
+
 
 export default function () {
     return router
