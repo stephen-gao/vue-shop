@@ -3,15 +3,16 @@
  * 路由跳转前判断是否登录
  */
 import router from '../router'
-import user from '../store/user'
 import console from 'console'
 import { Message } from 'element-ui'
+import store from '../store'
 
 router.beforeEach(function (to, from ,next ) {
     console.log("走路由");
     if(to.matched.some(record => record.meta.requiresAuth)) {
+        var token = store.getters.token
         console.log("路由路由before")
-        if (!user.getToken()) {
+        if (!token) {
             console.log(Message)
             Message({
                 showClose: true,

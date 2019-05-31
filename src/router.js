@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from './views/layout/Layout.vue'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export const constantRouters = [
     {
@@ -37,7 +37,7 @@ export const constantRouters = [
                 name: '商城用户',
                 icon: 's-custom',
                 meta: { requiresAuth: false },
-                component: () => import('./views/user/UserShop.vue')
+                component: () => import('./views/user/CustomerShop.vue')
             },
             {
                 id: '12',
@@ -74,7 +74,7 @@ export const constantRouters = [
         hidden: true,
         component: () => import('./views/login/Login.vue')
     }
-]
+];
 
 export default new Router({
   mode: 'history',

@@ -16,7 +16,6 @@
 <script>
     import login from '@/api/login'
     import console from 'console'
-    import user from '@/store/user'
     import router from '@/router'
     import { Message } from 'element-ui'
     export default{
@@ -41,14 +40,14 @@
         methods: {
             login() {
                 var valided = false;
-                console.log(this.reqData)
+                console.log(this.reqData);
                 this.$refs.reqData.validate((valid) => {
                     if (valid) {
                         valided = true;
                         console.log(valid+ ' '+valided)
                     }
                 });
-                console.log(valided)
+                console.log(valided);
                 if(!valided){
                     Message({
                         showClose: true,
@@ -60,16 +59,17 @@
                 this.logining = true;
                 login.login(this.reqData).then(response =>{
                     this.logining = false;
-                    console.debug("登录返回")
-                    console.debug(response)
+                    console.debug("登录返回");
+                    console.debug(response);
                     if(response.code === 10000){
                         Message({
                             showClose: true,
                             message: '登录成功',
                             type: 'success'
                         })
-                        let data = response.data
-                        user.setToken(data.token)
+                        let data = response.data;
+                        this.$store.commit('setToken',data.token);
+                        this.$store.commit('setUser',data);
                         router.push('/home')
                     }else {
                         Message({

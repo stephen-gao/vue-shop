@@ -4,7 +4,7 @@
 import axios from 'axios'
 import browser from './browser'
 import console from 'console'
-import user from '../store/user'
+import store from '../store'
 import router from '../router'
 import { Message } from 'element-ui'
 
@@ -26,8 +26,8 @@ http.interceptors.request.use(config => {
             config.url += symbol + '_=' + Date.now()
         }
         //设置token
-        if(user.getToken()){
-            config.headers.token = user.getToken()
+        if(store.getters.token){
+            config.headers.token = store.getters.token
         }
         // 请求发送前进行处理
         return config
@@ -46,7 +46,7 @@ http.interceptors.response.use(response =>{
                 type: 'error',
                 duration: 3000
             })
-            user.removeToken();
+            store.commit("removeToken")
             router.push("login")
         }
         return resp;

@@ -2,17 +2,16 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
-import auth from './common/auth'
+import routerUtil from './common/routerUtil'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import components from "./common/components"
 
-Vue.config.productionTip = false
-Vue.use(ElementUI, components)
+Vue.config.productionTip = false;
+Vue.use(ElementUI);
 
 new Vue({
   router,
-  auth,
+  routerUtil,
   store,
   render (h) { return h(App)}
-}).$mount('#app')
+}).$mount('#app');

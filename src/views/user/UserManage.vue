@@ -72,7 +72,7 @@
     import ElCol from "element-ui/packages/col/src/col";
     import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
     import userApi from "@/api/user"
-    import { parseTime } from "@/utils/formatUtils"
+    import {parseTime} from "@/utils/formatUtils"
     export default{
         components: {
             ElInput,
@@ -105,12 +105,12 @@
         },
         methods: {
             fetchData() {
-                this.listLoading = true
+                this.listLoading = true;
                 userApi.userPage(this.requestData).then(response => {
-                    this.list = response.data.records
-                    this.total = response.data.total
-                    this.pageNum = response.data.offset
-                    this.pageSize = response.data.size
+                    this.list = response.data.records;
+                    this.total = response.data.total;
+                    this.pageNum = response.data.offset;
+                    this.pageSize = response.data.size;
                     this.listLoading = false
                 }).catch(() => {
                     this.listLoading = false
@@ -139,7 +139,7 @@
             },
             edit(row){
                 this.$message({
-                    message: "更新："+row.id+" 待实现",
+                    message: "更新：" + row.id + " 待实现",
                     type: 'warning',
                     duration: 3000
                 })
