@@ -6,6 +6,6 @@ import request from '@/common/request'
 
 export default {
     login (data){
-        return request.post('/api/login',data,{})
+        return request.post('/usermanageapi/login',data,{})
     }
 }

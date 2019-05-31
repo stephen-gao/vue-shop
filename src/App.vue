@@ -1,30 +1,26 @@
 <template>
   <div id="app">
-<!--    <div id="nav">-->
-<!--      <router-link to="/">Home</router-link> |-->
-<!--      <router-link to="/about">About</router-link> |-->
-<!--      <router-link to="/login">login</router-link>-->
-<!--    </div>-->
-    <router-view/>
+    <!--<div id="nav">-->
+      <!--<p @click="$router.push('/')">Home</p>-->
+      <!--<p @click="$router.push('/about')">About</p>-->
+      <!--<p @click="$router.push('/login')">login</p>-->
+    <!--</div>-->
+    <transition name="fade"
+                mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
-<style lang="less">
+<style rel="stylesheet/scss" lang="css">
+@import "styles/index.scss";
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
     color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+    width: 100%;
+    height: 100%;
 }
 </style>

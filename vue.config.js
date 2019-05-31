@@ -7,14 +7,23 @@ module.exports = {
         port: 8800,
         https: false,
         proxy: {
-            '/api': {
-                target: 'http://127.0.0.1:8900/easywork/',
+            '/usermanageapi': {
+                target: 'http://127.0.0.1:8892/usermanage',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
-                    '^/api': ''
+                    '^/usermanageapi': ''
                 },
-                secure:false
+                secure: false
+            },
+            'shopmanageapi': {
+                target: 'http://127.0.0.1:8893/shopmanage',
+                changeOrigin: true,
+                ws: true,
+                pathRewrite: {
+                    '^/shopmanageapi': ''
+                },
+                secure: false
             }
         }
     }

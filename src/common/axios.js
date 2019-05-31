@@ -6,6 +6,7 @@ import browser from './browser'
 import console from 'console'
 import user from '../store/user'
 import router from '../router'
+import { Message } from 'element-ui'
 
 const http = axios.create({
     timeout: 60000
@@ -40,6 +41,11 @@ http.interceptors.response.use(response =>{
         const resp = response.data
         if(resp.code === 40001){
             console.log("未登录或登录超时")
+            Message({
+                message: "未登录或登录超时",
+                type: 'error',
+                duration: 3000
+            })
             user.removeToken();
             router.push("login")
         }
@@ -60,6 +66,11 @@ http.interceptors.response.use(response =>{
                 msg: statusText
             }
         }
+        Message({
+            message: status + " " +statusText,
+            type: 'error',
+            duration: 3000
+        })
         return Promise.reject(info)
     }
 )

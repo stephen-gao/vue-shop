@@ -4,7 +4,8 @@
 import request from '@/common/request'
 
 export default {
+    name: 'userApi',
     userPage (data){
-        return request.get('/api/user/userPage', data, {})
+        return request.post('/usermanageapi/user/userPage', data, {})
     }
 }

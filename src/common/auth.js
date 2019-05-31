@@ -8,9 +8,10 @@ import console from 'console'
 import { Message } from 'element-ui'
 
 router.beforeEach(function (to, from ,next ) {
-    console.log("路由路由before")
-    if(to.path !== '/login'){
-        if(!user.getToken()){
+    console.log("走路由");
+    if(to.matched.some(record => record.meta.requiresAuth)) {
+        console.log("路由路由before")
+        if (!user.getToken()) {
             console.log(Message)
             Message({
                 showClose: true,
@@ -24,6 +25,6 @@ router.beforeEach(function (to, from ,next ) {
 })
 
 
-export default function () {
-    return router
+export default {
+    name: "auth"
 }
