@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="6">
                 <div class="table-head-box">
-                    <el-input class="table-input" v-model="requestData.username" placeholder="请输入用户名"
+                    <el-input class="table-input" v-model="requestData.code" placeholder="请输入用户名"
                               @keyup.enter.native="keyupEnter"></el-input>
                 </div>
             </el-col>
@@ -29,21 +29,13 @@
         <el-table class="table-body" :data="list" row-key="id" stripe v-loading.body="listLoading"
                   element-loading-text="Loading" border fit highlight-current-row>
             <!--<el-table-column prop="id" label="ID"/>-->
-            <el-table-column prop="username" label="用户名">
+            <el-table-column prop="id" label="ID">
             </el-table-column>
-            <el-table-column prop="nickname" label="昵称">
+            <el-table-column prop="code" label="编码">
             </el-table-column>
-            <el-table-column prop="tel" label="电话">
+            <el-table-column prop="name" label="名称">
             </el-table-column>
-            <el-table-column prop="gmtCreate" label="创建时间">
-                <template slot-scope="scope">
-                    <span>{{scope.row.gmtCreate | handlerFomartTime}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column prop="gmtUpdate" label="更新时间">
-                <template slot-scope="scope">
-                    <span>{{scope.row.gmtUpdate | handlerFomartTime}}</span>
-                </template>
+            <el-table-column prop="sort" label="排序">
             </el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
@@ -70,9 +62,8 @@
 <script>
     import ElRow from "element-ui/packages/row/src/row";
     import ElCol from "element-ui/packages/col/src/col";
-    import ElInput from "../../../node_modules/element-ui/packages/input/src/input";
-    import userApi from "@/api/user"
-    import {parseTime} from "@/utils/formatUtils"
+    import ElInput from "element-ui/packages/input/src/input";
+    import sysdic from "@/api/sysdic"
     export default{
         components: {
             ElInput,
@@ -89,16 +80,14 @@
                 requestData: {
                     pageNum: null,
                     pageSize: null,
-                    username: null
+                    code: null
                 },
                 listLoading: false
 
             }
         },
         filters: {
-            handlerFomartTime(data) {
-                return parseTime(data)
-            }
+
         },
         created() {
             this.queryData()
@@ -106,7 +95,7 @@
         methods: {
             queryData() {
                 this.listLoading = true;
-                userApi.userPage(this.requestData).then(response => {
+                sysdic.page(this.requestData).then(response => {
                     this.list = response.data.records;
                     this.total = response.data.total;
                     this.pageNum = response.data.offset;

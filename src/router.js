@@ -9,7 +9,7 @@ export const constantRouters = [
         id: '0',
         path: '/',
         name: '首页',
-        meta: { requiresAuth: false },
+        meta: { requiresAuth: true },
         icon: 's-home',
         component: Layout,
         children: [
@@ -17,7 +17,7 @@ export const constantRouters = [
                 id: '01',
                 path: '/home',
                 name: '首页',
-                meta: { requiresAuth: false },
+                meta: { requiresAuth: true },
                 icon: 's-home',
                 component: () => import('./views/Home.vue')
             }
@@ -27,7 +27,7 @@ export const constantRouters = [
         id: '1',
         path: '/',
         name: '用户管理',
-        meta: { requiresAuth: false },
+        meta: { requiresAuth: true },
         icon: 'user-solid',
         component: Layout,
         children: [
@@ -47,18 +47,42 @@ export const constantRouters = [
                 meta: { requiresAuth: true },
                 component: () => import('./views/user/UserManage.vue')
             },
+            {
+                id: '13',
+                path: '/role',
+                name: '角色管理',
+                icon: 's-custom',
+                meta: { requiresAuth: true },
+                component: () => import('./views/user/Role.vue')
+            },
+            {
+                id: '14',
+                path: '/resource',
+                name: '资源管理',
+                icon: 's-custom',
+                meta: { requiresAuth: true },
+                component: () => import('./views/user/Resource.vue')
+            },
         ]
     },
     {
         id: '2',
-        path: '/',
-        name: '关于',
+        path: '/sys',
+        name: '系统管理',
         meta: { requiresAuth: false },
         icon: 's-home',
         component: Layout,
         children: [
             {
                 id: '21',
+                path: '/sysdic',
+                name: '数据字典',
+                icon: 's-opportunity',
+                meta: { requiresAuth: false },
+                component: () => import('./views/sys/SysDic.vue')
+            },
+            {
+                id: '22',
                 path: '/about',
                 name: '关于',
                 icon: 's-opportunity',

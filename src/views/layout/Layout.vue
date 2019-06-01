@@ -108,6 +108,7 @@
     .app-main{
         flex:1;
         overflow-y: auto;
+        height: 100%;
         /*padding: 20px;*/
     }
 
