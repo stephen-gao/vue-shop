@@ -22,8 +22,8 @@
         data() {
             return {
                 reqData: {
-                    username: null,
-                    password: null
+                    username: 'super',
+                    password: 'super'
                 },
                 rules: {
                     username: [
@@ -59,8 +59,6 @@
                 this.logining = true;
                 login.login(this.reqData).then(response =>{
                     this.logining = false;
-                    console.debug("登录返回");
-                    console.debug(response);
                     if(response.code === 10000){
                         Message({
                             showClose: true,
@@ -70,13 +68,8 @@
                         let data = response.data;
                         this.$store.commit('setToken',data.token);
                         this.$store.commit('setUser',data);
+                        this.$store.commit('setMenu',data.menus);
                         router.push('/home')
-                    }else {
-                        Message({
-                            showClose: true,
-                            message: response.message,
-                            type: 'error'
-                        })
                     }
                 })
             }

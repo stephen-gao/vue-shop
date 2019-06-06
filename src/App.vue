@@ -11,6 +11,9 @@
     </transition>
   </div>
 </template>
+<script>
+
+</script>
 
 <style rel="stylesheet/scss" lang="css">
 @import "styles/index.scss";

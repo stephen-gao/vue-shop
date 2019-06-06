@@ -10,10 +10,10 @@ import store from '../store'
 router.beforeEach(function (to, from ,next ) {
     console.log("走路由");
     if(to.matched.some(record => record.meta.requiresAuth)) {
-        var token = store.getters.token
-        console.log("路由路由before")
+        var token = store.getters.token;
+        console.log("路由路由before");
         if (!token) {
-            console.log(Message)
+            console.log(Message);
             Message({
                 showClose: true,
                 message: '未登录',

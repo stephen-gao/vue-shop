@@ -70,7 +70,7 @@ export const constantRouters = [
         path: '/sys',
         name: '系统管理',
         meta: { requiresAuth: false },
-        icon: 's-home',
+        icon: 's-tools',
         component: Layout,
         children: [
             {

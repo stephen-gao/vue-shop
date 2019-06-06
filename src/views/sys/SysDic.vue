@@ -26,8 +26,8 @@
                 </div>
             </el-col>
         </el-row>
-        <el-table class="table-body" :data="list" row-key="id" stripe v-loading.body="listLoading"
-                  element-loading-text="Loading" border fit highlight-current-row>
+        <el-table class="table-body" :data="list" row-key="id" stripe v-loading.body="loading"
+                  element-loading-text="loading" border fit highlight-current-row>
             <!--<el-table-column prop="id" label="ID"/>-->
             <el-table-column prop="id" label="ID">
             </el-table-column>
@@ -72,18 +72,23 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="addSysDicType()">提交</el-button>
+                <el-button type="primary" @click="addSysDicType">提交</el-button>
             </div>
         </el-dialog>
-        <el-dialog title="字典项列表" :visible.sync="dialogDicItemTableVisible" before-close="alert('a')">
+        <el-dialog title="字典项列表" :visible.sync="dialogDicItemTableVisible">
             <div style="text-align: left;margin-bottom: 10px;">
                 <el-button type="primary" size="medium " @click="dialogDicItemVisible=true">添加字典值</el-button>
             </div>
-            <el-table :data="sysDicItemList">
+            <el-table :data="sysDicItemList" border>
                 <el-table-column prop="name" label="字典值名称"></el-table-column>
                 <el-table-column prop="code" label="字典值编码"></el-table-column>
                 <el-table-column prop="typeCode" label="字典分类"></el-table-column>
                 <el-table-column prop="sort" label="排序"></el-table-column>
+                <el-table-column label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-button type="danger" size="mini" @click="delDicItem(scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
         </el-dialog>
         <el-dialog title="添加字典项" :visible.sync="dialogDicItemVisible">
@@ -108,7 +113,7 @@
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="addSysDicItem()">提交</el-button>
+                <el-button type="primary" @click="addSysDicItem">提交</el-button>
             </div>
         </el-dialog>
     </div>
@@ -138,10 +143,10 @@
                     code: null
                 },
                 loading: false,
-                sysDicType:{
+                sysDicType: {
                     id: '',
-                    code:'',
-                    name:'',
+                    code: '',
+                    name: '',
                     sort: 1
                 },
                 dialogDicTypeVisible: false,
@@ -154,22 +159,21 @@
                     ]
                 },
                 dialogDicItemTableVisible: false,
-                sysDicItemList:[],
+                sysDicItemList: [],
                 dialogDicItemVisible: false,
-                sysDicItem:{
+                sysDicItem: {
                     id: '',
-                    name:'',
-                    code:'',
-                    typeId:'',
-                    typeCode:'',
-                    sort:''
-                }
-
+                    name: '',
+                    code: '',
+                    typeId: '',
+                    typeCode: '',
+                    sort: ''
+                },
+                validateDicTypeValue: true,
+                validateDicItemValue: true
             }
         },
-        filters: {
-
-        },
+        filters: {},
         created() {
             this.queryData()
         },
@@ -187,45 +191,43 @@
                 })
             },
             keyupEnter(){
-                this.$message({
-                    message: '待实现',
-                    type: 'warning',
-                    duration: 3000
-                })
+                this.queryData();
             },
             handlePageChange(){
-                this.$message({
-                    message: '待实现',
-                    type: 'warning',
-                    duration: 3000
+                this.queryData();
+            },
+            validateDicType(){
+                this.$refs.sysDicType.validate((valid) => {
+                    if(valid){
+                        this.validateDicTypeValue =  false
+                    }
                 })
             },
             addSysDicType(){
-                this.$refs.sysDicType.validate((valid) => {
-                    if (valid) {
-                        this.loading = true;
-                        sysdic.addDicType(this.sysDicType).then(response => {
-                            this.loading = false;
-                            this.$message({
-                                message: response.message,
-                                type: 'success',
-                                duration: 3000
-                            });
-                            this.formRefrash();
-                            this.queryData();
-                            this.dialogDicTypeVisible = false;
-                        }).catch(() => {
-                            this.loading = false;
-                        })
-                    } else {
-                        this.$message({
-                            message: '请正确填写表单',
-                            type: 'error',
-                            duration: 3000
-                        });
-                        return false;
-                    }
+                this.validateDicType();
+                if (this.validateDicTypeValue) {
+                    this.$message({
+                        message: '请正确填写表单',
+                        type: 'error',
+                        duration: 3000
+                    });
+                    return;
+                }
+                this.loading = true;
+                sysdic.addDicType(this.sysDicType).then(response => {
+                    this.loading = false;
+                    this.$message({
+                        message: response.message,
+                        type: 'success',
+                        duration: 3000
+                    });
+                    this.formRefrash();
+                    this.queryData();
+                    this.dialogDicTypeVisible = false;
+                }).catch(() => {
+                    this.loading = false;
                 });
+                this.validateDicTypeValue =  true
             },
             dicItemList(row){
                 this.dialogDicItemTableVisible = true;
@@ -235,56 +237,77 @@
             },
             dicItemListById(id){
                 this.loading = true;
-                sysdic.dicItemsByTypeId({typeId:id}).then(response => {
+                sysdic.dicItemsByTypeId({typeId: id}).then(response => {
                     this.sysDicItemList = response.data;
                     this.loading = false
                 }).catch(() => {
                     this.loading = false
                 })
             },
-            addSysDicItem(){
+            validate(){
                 this.$refs.sysDicItem.validate((valid) => {
-                    if (valid) {
-                        this.loading = true;
-                        sysdic.addDicItem(this.sysDicItem).then(response => {
-                            this.loading = false;
-                            this.$message({
-                                message: response.message,
-                                type: 'success',
-                                duration: 3000
-                            });
-                            this.formRefrash();
-                            this.dicItemListById(this.sysDicItem.typeId)
-                            this.dialogDicItemVisible = false;
-                        }).catch(() => {
-                            this.loading = false;
-                        })
-                    } else {
-                        this.$message({
-                            message: '请正确填写表单',
-                            type: 'error',
-                            duration: 3000
-                        });
-                        return false;
+                    if(valid){
+                        this.validateDicItemValue = false
                     }
+                })
+            },
+            addSysDicItem(){
+                this.validate();
+                if (this.validateDicItemValue) {
+                    this.$message({
+                        message: '请正确填写表单',
+                        type: 'error',
+                        duration: 3000
+                    });
+                    return;
+                }
+                this.loading = true;
+                sysdic.addDicItem(this.sysDicItem).then(response => {
+                    this.loading = false;
+                    this.$message({
+                        message: response.message,
+                        type: 'success',
+                        duration: 3000
+                    });
+                    this.formRefrash();
+                    this.dicItemListById(this.sysDicItem.typeId);
+                    this.dialogDicItemVisible = false;
+                }).catch(() => {
+                    this.loading = false;
                 });
+                this.validateDicItemValue = true
             },
             delDicType(row){
-                this.$message({
-                    message: '待实现',
-                    type: 'warning',
-                    duration: 3000
+                sysdic.deldictype({id:row.id}).then(response => {
+                    this.$message({
+                        message: response.message,
+                        type: 'success',
+                        duration: 3000
+                    });
+                    this.queryData();
+                }).catch(() => {
+                })
+            },
+            delDicItem(row){
+                sysdic.deldicitem({id:row.id}).then(response => {
+                    this.$message({
+                        message: response.message,
+                        type: 'success',
+                        duration: 3000
+                    });
+                    this.dicItemListById(this.sysDicItem.typeId);
+                }).catch(() => {
                 })
             },
             formRefrash(){
                 this.sysDicType = {
                     id: '',
-                    code:'',
-                    name:'',
+                    code: '',
+                    name: '',
                     sort: 1
                 };
-                this.sysDicItem.name='';
-                this.sysDicItem.code='';
+                this.sysDicItem.name = '';
+                this.sysDicItem.code = '';
 
             }
         }

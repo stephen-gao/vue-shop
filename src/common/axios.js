@@ -3,7 +3,6 @@
  */
 import axios from 'axios'
 import browser from './browser'
-import console from 'console'
 import store from '../store'
 import router from '../router'
 import { Message } from 'element-ui'
@@ -38,16 +37,20 @@ http.interceptors.request.use(config => {
 )
 
 http.interceptors.response.use(response =>{
-        const resp = response.data
-        if(resp.code === 40001){
-            console.log("未登录或登录超时")
+        let resp = response.data;
+        if(resp.code === 10000){
+            return resp;
+        }else if(resp.code === 40001){
+            router.push("login");
+            this.$store.commit('removeToken');
+            this.$store.commit('removeUser');
+            this.$store.commit('removeMenu');
+        }else {
             Message({
-                message: "未登录或登录超时",
+                message: resp.message,
                 type: 'error',
                 duration: 3000
-            })
-            store.commit("removeToken")
-            router.push("login")
+            });
         }
         return resp;
     },error => {
@@ -70,7 +73,7 @@ http.interceptors.response.use(response =>{
             message: status + " " +statusText,
             type: 'error',
             duration: 3000
-        })
+        });
         return Promise.reject(info)
     }
 )

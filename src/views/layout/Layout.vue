@@ -9,12 +9,18 @@
                         </el-col>
                     </router-link>
                     <el-col class="head-info" :span="20">
-                        <span >喵喵喵</span>
                         <el-dropdown class="head-set">
-                            <i class="el-icon-setting head-set-icon"></i>
+                            <span class="el-dropdown-link head-set-font">
+                                {{user.nickname}}
+                                <i class="el-icon-setting el-icon--right head-set-font"></i>
+                            </span>
+                            <!--<i class=" head-set-icon"></i>-->
+                            <!--<div >-->
+                                <!--<span ></span>-->
+                            <!--</div>-->
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item divided>
-                                    <span @click="logout" style="display:block;">LogOut</span>
+                                    <span @click="logout" style="display:block;">退出</span>
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
@@ -38,7 +44,6 @@
 </template>
 <script>
     import Menu from "./Menu.vue"
-    import console from 'console'
     import ElContainer from "../../../node_modules/element-ui/packages/container/src/main";
     import ElRow from "element-ui/packages/row/src/row";
     import ElAside from "../../../node_modules/element-ui/packages/aside/src/main";
@@ -48,6 +53,9 @@
     import ElDropdownMenu from "../../../node_modules/element-ui/packages/dropdown/src/dropdown-menu";
     import ElDropdownItem from "../../../node_modules/element-ui/packages/dropdown/src/dropdown-item";
     import ElDropdown from "../../../node_modules/element-ui/packages/dropdown/src/dropdown";
+    import storeUtil from '@/common/storeUtil'
+    import login from '@/api/login'
+    import router from '@/router'
     export default{
         components:{
             ElDropdown,
@@ -62,12 +70,36 @@
             Menu },
         data() {
             return {
-                isCollapse: true
+                isCollapse: true,
+                user: this.$store.getters.user
             }
+        },
+        created() {
+            storeUtil.refreshRoles();
+            storeUtil.refreshSysDic();
         },
         methods:{
             logout (){
-                console.log("退出")
+                login.logout(this.reqData).then(response => {
+                    this.logining = false;
+                    if (response.code === 10000) {
+                        this.$message({
+                            showClose: true,
+                            message: '退出成功',
+                            type: 'success'
+                        })
+                        this.$store.commit('removeToken');
+                        this.$store.commit('removeUser');
+                        this.$store.commit('removeMenu');
+                        router.push('/login')
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: response.message,
+                            type: 'error'
+                        })
+                    }
+                })
             }
         }
     }
@@ -101,8 +133,8 @@
         margin-left: 15px;
         margin-right: 30px;
     }
-    .head-set-icon{
-        font-size: 16px;
+    .head-set-font{
+        font-size: 18px;
         color: #d3dce6;
     }
     .app-main{

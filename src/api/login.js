@@ -7,5 +7,8 @@ import request from '@/common/request'
 export default {
     login (data){
         return request.post('/usermanageapi/login',data,{})
+    },
+    logout(data){
+        return request.get('/usermanageapi/logout',data,{})
     }
 }

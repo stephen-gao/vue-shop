@@ -16,5 +16,19 @@ export default {
     },
     addDicItem(data){
         return request.post('/usermanageapi/sysdic/adddicitem',data,{})
+    },
+    dicitemsbtypeCode(data){
+        return request.get('/usermanageapi/sysdic/dicitemsbtypeCode',data,{})
+    },
+    deldictype(data){
+        return request.get('/usermanageapi/sysdic/deldictype',data,{})
+    },
+    deldicitem(data){
+        return request.get('/usermanageapi/sysdic/deldicitem',data,{})
+    },
+    sysDicTree(data){
+        return request.get('/usermanageapi/sysdic/sysdictree',data,{})
     }
+
+
 }
