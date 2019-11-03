@@ -70,7 +70,7 @@
         </div>
         <el-dialog title="用户" width="500px" :visible.sync="dialogEditCustomerVisible">
             <div style="text-align: left">
-                <el-form style="width: 400px" :model="customer" :rules="rules" ref="user" status-icon
+                <el-form style="width: 400px" :model="customer" status-icon
                          label-width="100px"
                          size="small">
                     <el-form-item label="id" hidden>

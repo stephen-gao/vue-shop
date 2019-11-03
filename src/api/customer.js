@@ -6,12 +6,12 @@ import request from '@/common/request'
 export default {
     name: 'customerApi',
     page (data){
-        return request.post('/usermanageapi/customer/page', data, {})
+        return request.post('/shopmanageapi/customer/page', data, {})
     },
     resetPwd(data){
-        return request.post('/usermanageapi/customer/resetpwd', data, {})
+        return request.post('/shopmanageapi/customer/resetpwd', data, {})
     },
     chageState(data){
-        return request.post('/usermanageapi/customer/changestate', data, {})
+        return request.post('/shopmanageapi/customer/changestate', data, {})
     }
 }

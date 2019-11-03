@@ -17,7 +17,7 @@
             <el-main>
                 <span style="text-align: left"><h1>资源节点</h1></span>
                 <div style="margin-top: 20px;text-align: left">
-                    <el-form style="width: 400px" :model="treeChecdNode" :rules="rules" ref="newNode" status-icon label-width="100px" size="small">
+                    <el-form style="width: 400px" :model="treeChecdNode" :rules="rules" ref="treeChecdNode" status-icon label-width="100px" size="small">
                         <el-form-item label="id" hidden>
                             <el-input v-model="treeChecdNode.id"></el-input>
                         </el-form-item>

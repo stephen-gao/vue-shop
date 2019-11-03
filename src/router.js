@@ -6,86 +6,98 @@ Vue.use(Router);
 
 export const constantRouters = [
     {
-        id: '0',
         path: '/',
         name: '首页',
         meta: { requiresAuth: true },
-        icon: 's-home',
         component: Layout,
         children: [
             {
-                id: '01',
                 path: '/home',
                 name: '首页',
                 meta: { requiresAuth: true },
-                icon: 's-home',
                 component: () => import('./views/Home.vue')
             }
         ]
     },
     {
-        id: '1',
         path: '/',
         name: '用户管理',
         meta: { requiresAuth: true },
-        icon: 'user-solid',
         component: Layout,
         children: [
             {
-                id: '11',
                 path: '/usershop',
                 name: '商城用户',
-                icon: 's-custom',
                 meta: { requiresAuth: false },
                 component: () => import('./views/user/CustomerShop.vue')
             },
             {
-                id: '12',
                 path: '/usermanage',
                 name: '后台用户',
-                icon: 's-custom',
                 meta: { requiresAuth: true },
                 component: () => import('./views/user/UserManage.vue')
             },
             {
-                id: '13',
                 path: '/role',
                 name: '角色管理',
-                icon: 's-custom',
                 meta: { requiresAuth: true },
                 component: () => import('./views/user/Role.vue')
             },
             {
-                id: '14',
                 path: '/resource',
                 name: '资源管理',
-                icon: 's-custom',
                 meta: { requiresAuth: true },
                 component: () => import('./views/user/Resource.vue')
             },
         ]
     },
     {
-        id: '2',
-        path: '/sys',
-        name: '系统管理',
-        meta: { requiresAuth: false },
-        icon: 's-tools',
+        path: '/shop',
+        name: '商城管理',
+        meta: { requiresAuth: true },
         component: Layout,
         children: [
             {
-                id: '21',
+                path: '/spu',
+                name: '商品管理',
+                meta: { requiresAuth: true },
+                component: () => import('./views/shop/Spu.vue')
+            },
+            {
+                path: '/spec',
+                name: '规格管理',
+                meta: { requiresAuth: true },
+                component: () => import('./views/shop/Spec.vue')
+            },
+            {
+                path: '/brand',
+                name: '品牌管理',
+                meta: { requiresAuth: true },
+                component: () => import('./views/shop/Brand.vue')
+            },
+            {
+                path: '/category',
+                name: '分类管理',
+                meta: { requiresAuth: true },
+                component: () => import('./views/shop/Category.vue')
+            }
+        ]
+    },
+    {
+        path: '/sys',
+        name: '系统管理',
+        meta: { requiresAuth: false },
+        component: Layout,
+        children: [
+            {
                 path: '/sysdic',
                 name: '数据字典',
-                icon: 's-opportunity',
                 meta: { requiresAuth: false },
                 component: () => import('./views/sys/SysDic.vue')
             },
             {
-                id: '22',
                 path: '/about',
                 name: '关于',
-                icon: 's-opportunity',
                 meta: { requiresAuth: false },
                 component: () => import('./views/About.vue')
             }
@@ -95,7 +107,6 @@ export const constantRouters = [
         path: '/login',
         name: 'login',
         meta: { requiresAuth: false },
-        hidden: true,
         component: () => import('./views/login/Login.vue')
     }
 ];

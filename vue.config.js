@@ -7,21 +7,21 @@ module.exports = {
         port: 8800,
         https: false,
         proxy: {
-            '/usermanageapi': {
-                target: 'http://127.0.0.1:8892/usermanage',
-                changeOrigin: true,
-                ws: true,
-                pathRewrite: {
-                    '^/usermanageapi': ''
-                },
-                secure: false
-            },
             'shopmanageapi': {
                 target: 'http://127.0.0.1:8893/shopmanage',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
                     '^/shopmanageapi': ''
+                },
+                secure: false
+            },
+            'shopfileapi': {
+                target: 'http://127.0.0.1:8894/shopfile',
+                changeOrigin: true,
+                ws: true,
+                pathRewrite: {
+                    '^/shopfileapi': ''
                 },
                 secure: false
             }
