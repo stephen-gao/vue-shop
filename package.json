@@ -8,7 +8,7 @@
     "build:prod": "vue-cli-service build --mode prod"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "console": "^0.7.2",
     "core-js": "^2.6.5",
     "currently-unhandled": "^0.4.1",
